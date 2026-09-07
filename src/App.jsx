@@ -297,6 +297,17 @@ function App() {
               <p style={{ margin: '5px 0' }}>🌟 ความน่าเชื่อถือ (Credibility): <strong>{playerStats.cred} / 100</strong></p>
               <p style={{ margin: '5px 0' }}>🧠 ความรู้สะสม (Knowledge): <strong>{playerStats.know} / 50</strong></p>
             </div>
+            {/* เพิ่มส่วน QR Code ตรงนี้ครับ */}
+            <div className="qr-section">
+              <p>🎯 ท้าเพื่อนมาลองเป็นนักโภชนาการ!</p>
+              {/* เปลี่ยน YOUR_VERCEL_LINK ตรง data=... ให้เป็นลิงก์เว็บจริงของคุณ */}
+              <img 
+                className="qr-image" 
+                src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://nutritionist-sim.vercel.app" 
+                alt="QR Code" 
+              />
+              <p className="qr-hint">สแกน QR Code เพื่อเล่นเกมนี้</p>
+            </div>
 
             <button className="btn-reset" onClick={resetGame}>🔄 เปิดคลินิกรอบใหม่</button>
           </div>
