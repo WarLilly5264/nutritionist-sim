@@ -3,15 +3,15 @@ import './App.css';
 
 // ชุดสีพาสเทลสำหรับสุ่มปุ่มตัวเลือก
 const buttonColors = [
-  { bg: '#a29bfe', border: '#6c5ce7' }, // ม่วง
-  { bg: '#fab1a0', border: '#e17055' }, // ส้ม
-  { bg: '#81ecec', border: '#00cec9' }, // ฟ้า
-  { bg: '#55efc4', border: '#00b894' }, // เขียว
-  { bg: '#ffeaa7', border: '#fdcb6e' }, // เหลือง
-  { bg: '#ff7675', border: '#d63031' }  // แดง
+  { bg: '#a29bfe', border: '#6c5ce7' },
+  { bg: '#fab1a0', border: '#e17055' },
+  { bg: '#81ecec', border: '#00cec9' },
+  { bg: '#55efc4', border: '#00b894' },
+  { bg: '#ffeaa7', border: '#fdcb6e' },
+  { bg: '#ff7675', border: '#d63031' }
 ];
 
-// ข้อมูล 5 เคสเหมือนเดิม
+// ข้อมูล 5 เคส พร้อมคลังคำตอบเคสละ 9 ตัวเลือก (แยกหมวด)
 const gameCases = [
   {
     id: 1,
@@ -20,12 +20,24 @@ const gameCases = [
     trait: "ใจร้อน, แอบกินของทอดประจำ",
     history: "อีก 2 ชม. จะลงแข่งสนามใหญ่ รู้อยู่แล้วว่าชอบกินของทอด แต่ต้องการพลังงานด่วนโดยไม่จุก",
     secretInfo: "⚠️ กรดในกระเพาะอาหารสูง: ควรงดไขมันและไฟเบอร์สูง เพราะใช้เวลาย่อยนาน",
-    initialStats: { health: 70, fit: 80, perf: 50, mood: 40 }, 
-    options: [
-      { text: "จัดมื้อ 'ข้าวขาว + กล้วยหอม'", type: "A", playerEffect: { cred: 10, know: 10 }, athleteEffect: { perf: 20, fit: 5, mood: -10, health: 0 }, feedback: "✅ ถูกต้อง! ต้นวิ่งฉิวไม่จุก (ความรู้: ก่อนแข่ง 1-2 ชม. ควรเน้นคาร์บไฮเดรตที่ย่อยง่าย กากใยและไขมันต่ำ เพื่อให้ร่างกายดึงไปใช้เป็นพลังงานได้ทันทีโดยไม่เป็นภาระกระเพาะ)" },
-      { text: "ยอมตามใจจัด 'ไก่ทอด + น้ำอัดลม'", type: "B", playerEffect: { cred: -10, know: 0 }, athleteEffect: { perf: -20, fit: 0, mood: 30, health: -10 }, feedback: "❌ ผิดเต็มๆ! ไขมันทอดทำให้กรดไหลย้อน ต้นวิ่งไม่ออก โค้ชด่ายับ!" },
-      { text: "สลัดผักรวมชามโต + อกไก่", type: "C", playerEffect: { cred: -5, know: 5 }, athleteEffect: { perf: -15, fit: 5, mood: -10, health: 10 }, feedback: "❌ ข้อหลอก! สลัดผักดูสุขภาพดี แต่ไฟเบอร์สูงมากใช้เวลาย่อยนาน ต้นจุกเสียดก่อนแข่ง (ความรู้: 1-2 ชม. ก่อนแข่ง ควรงดไฟเบอร์สูง)" }
-    ]
+    initialStats: { health: 70, fit: 80, perf: 50, mood: 40 },
+    optionsPool: {
+      good: [
+        { text: "จัดมื้อ 'ข้าวขาว + กล้วยหอม'", playerEffect: { cred: 10, know: 10 }, athleteEffect: { perf: 20, fit: 5, mood: -10, health: 0 }, feedback: "✅ ถูกต้อง! คาร์บเชิงซ้อนย่อยง่ายและกล้วยช่วยให้พลังงานทันที" },
+        { text: "ขนมปังขาวทาแยมผลไม้ + น้ำเปล่า", playerEffect: { cred: 10, know: 10 }, athleteEffect: { perf: 15, fit: 5, mood: -5, health: 0 }, feedback: "✅ เยี่ยม! ขนมปังขาวกากใยต่ำ ย่อยเป็นน้ำตาลไปใช้เป็นพลังงานได้ไวมาก ไม่จุกท้อง" },
+        { text: "สมูทตี้ผลไม้ล้วน (ไม่ใส่นม) + แครกเกอร์", playerEffect: { cred: 10, know: 10 }, athleteEffect: { perf: 20, fit: 5, mood: 5, health: 0 }, feedback: "✅ ดีมาก! ผลไม้ปั่นดูดซึมไว ให้พลังงานทันที ต้นชอบรสชาติด้วย" }
+      ],
+      bad: [
+        { text: "ยอมตามใจจัด 'ไก่ทอด + น้ำอัดลม'", playerEffect: { cred: -10, know: 0 }, athleteEffect: { perf: -20, fit: 0, mood: 30, health: -10 }, feedback: "❌ ผิดเต็มๆ! ไขมันทอดทำให้กรดไหลย้อน ต้นวิ่งไม่ออก โค้ชด่ายับ!" },
+        { text: "หมูกรอบ + ชานมไข่มุก", playerEffect: { cred: -10, know: 0 }, athleteEffect: { perf: -25, fit: 0, mood: 40, health: -15 }, feedback: "❌ พังพินาศ! ไขมันและน้ำตาลล้นกระเพาะ ต้นจุกเสียดจนต้องขอเปลี่ยนตัวออก" },
+        { text: "พิซซ่าหน้าชีสเยิ้มๆ 3 ชิ้น", playerEffect: { cred: -10, know: 0 }, athleteEffect: { perf: -20, fit: 0, mood: 20, health: -10 }, feedback: "❌ แย่มาก! ชีสย่อยยากมาก ต้นวิ่งไปเรอไป จุกจนหน้าซีด" }
+      ],
+      trick: [
+        { text: "สลัดผักรวมชามโต + อกไก่", playerEffect: { cred: -5, know: 5 }, athleteEffect: { perf: -15, fit: 5, mood: -10, health: 10 }, feedback: "❌ ข้อหลอก! ไฟเบอร์สูงมากใช้เวลาย่อยนาน (ความรู้: 1-2 ชม. ก่อนแข่ง ควรงดไฟเบอร์สูง)" },
+        { text: "ข้าวกล้อง + ถั่วอัลมอนด์", playerEffect: { cred: -5, know: 5 }, athleteEffect: { perf: -10, fit: 5, mood: -5, health: 5 }, feedback: "❌ ข้อหลอก! ข้าวกล้องและถั่วดีต่อสุขภาพ แต่ไขมันและกากใยย่อยช้าไปสำหรับก่อนลงแข่ง" },
+        { text: "สเต็กปลาแซลมอนชิ้นใหญ่", playerEffect: { cred: -5, know: 5 }, athleteEffect: { perf: -15, fit: 5, mood: 10, health: 5 }, feedback: "❌ ข้อหลอก! โปรตีนและไขมันดีจากปลาใช้เวลาย่อยนานกว่า 3-4 ชม. กินตอนนี้จุกแน่นอน" }
+      ]
+    }
   },
   {
     id: 2,
@@ -35,11 +47,23 @@ const gameCases = [
     history: "แข่งเสร็จมื้อเย็น ร่างกายล้ามาก ต้องการอาหารซ่อมแซมกล้ามเนื้อภายใน 30 นาที",
     secretInfo: "⚠️ ตรวจพบภูมิไวรับ: ร่างกายไม่มีเอนไซม์ย่อยแลคโตสในนมวัว",
     initialStats: { health: 40, fit: 50, perf: 50, mood: 30 },
-    options: [
-      { text: "แนะนำ 'อกไก่ + ข้าวสวย + น้ำมะพร้าว'", type: "A", playerEffect: { cred: 10, know: 10 }, athleteEffect: { health: 30, fit: 20, mood: 20, perf: 10 }, feedback: "✅ เป๊ะมาก! เมย์ฟื้นตัวได้ดี (ความรู้: น้ำมะพร้าวช่วยชดเชยเกลือแร่ธรรมชาติ ส่วนอกไก่และข้าวสวยให้โปรตีน-คาร์บเพื่อซ่อมแซมกล้ามเนื้อโดยไม่มีแลคโตสมากวนลำไส้)" },
-      { text: "แนะนำ 'เวย์โปรตีนผสมนมวัว'", type: "B", playerEffect: { cred: -15, know: 0 }, athleteEffect: { health: -30, perf: -20, mood: -20, fit: -10 }, feedback: "❌ พลาดแรง! เมย์แพ้นมวัว ท้องเสียหนักจนร่างกายทรุด" },
-      { text: "ผลไม้ตระกูลเบอร์รี่ + นมอัลมอนด์", type: "C", playerEffect: { cred: 0, know: 5 }, athleteEffect: { health: 10, perf: -10, mood: 10, fit: -5 }, feedback: "❌ ข้อหลอก! วิตามินดี แต่คาร์บและโปรตีนไม่พอซ่อมแซมกล้ามเนื้อที่ฉีกขาด (ความรู้: หลังแข่งหนัก 30 นาทีแรก ร่างกายต้องการโปรตีนและคาร์บที่ดูดซึมไว)" }
-    ]
+    optionsPool: {
+      good: [
+        { text: "อกไก่ + ข้าวสวย + น้ำมะพร้าว", playerEffect: { cred: 10, know: 10 }, athleteEffect: { health: 30, fit: 20, mood: 20, perf: 10 }, feedback: "✅ เป๊ะมาก! น้ำมะพร้าวคืนเกลือแร่ อกไก่และข้าวสวยซ่อมแซมกล้ามเนื้อโดยไม่มีแลคโตส" },
+        { text: "โปรตีนถั่วเหลือง (Soy) + กล้วยหอม", playerEffect: { cred: 10, know: 10 }, athleteEffect: { health: 25, fit: 20, mood: 15, perf: 10 }, feedback: "✅ ถูกต้อง! โปรตีนพืชปลอดภัยต่อคนแพ้นมวัว และกล้วยเติมไกลโคเจนกลับเข้ากล้ามเนื้อ" },
+        { text: "ข้าวเหนียวหมูปิ้ง (มันน้อย) + น้ำส้ม", playerEffect: { cred: 10, know: 10 }, athleteEffect: { health: 20, fit: 15, mood: 25, perf: 10 }, feedback: "✅ ทางเลือกที่ดี! หาซื้อง่าย ได้คาร์บและโปรตีนรวดเร็ว แถมช่วยให้เมย์อารมณ์ดีขึ้นด้วย" }
+      ],
+      bad: [
+        { text: "เวย์โปรตีนผสมนมวัว", playerEffect: { cred: -15, know: 0 }, athleteEffect: { health: -30, perf: -20, mood: -20, fit: -10 }, feedback: "❌ พลาดแรง! เมย์แพ้นมวัว ท้องเสียหนักจนร่างกายทรุด" },
+        { text: "ช็อกโกแลตซันเดย์ราดนมข้น", playerEffect: { cred: -15, know: 0 }, athleteEffect: { health: -25, perf: -20, mood: 10, fit: -10 }, feedback: "❌ แย่มาก! นอกจากแลคโตสทำท้องเสียแล้ว น้ำตาลเพียวๆ ไม่ได้ช่วยซ่อมแซมกล้ามเนื้อเลย" },
+        { text: "โกโก้ปั่นใส่นมสดแก้วใหญ่", playerEffect: { cred: -15, know: 0 }, athleteEffect: { health: -30, perf: -15, mood: 5, fit: -10 }, feedback: "❌ นมสดคือยาพิษของคนแพ้แลคโตส! เมย์ท้องเสียจนหมดแรง" }
+      ],
+      trick: [
+        { text: "ผลไม้ตระกูลเบอร์รี่ + นมอัลมอนด์", playerEffect: { cred: 0, know: 5 }, athleteEffect: { health: 10, perf: -10, mood: 10, fit: -5 }, feedback: "❌ ข้อหลอก! วิตามินดี แต่คาร์บและโปรตีนน้อยเกินไปสำหรับซ่อมแซมกล้ามเนื้อหลังแข่งหนัก" },
+        { text: "สลัดผักน้ำใส 1 จานใหญ่", playerEffect: { cred: 0, know: 5 }, athleteEffect: { health: 10, perf: -10, mood: -5, fit: -10 }, feedback: "❌ ข้อหลอก! กินสลัดตอนล้า ไม่ได้ให้พลังงานและโปรตีนในการซ่อมแซมกล้ามเนื้อเลย" },
+        { text: "ดื่มแค่น้ำแร่เย็นจัด 2 ลิตร", playerEffect: { cred: -5, know: 5 }, athleteEffect: { health: -10, perf: -15, mood: -5, fit: -10 }, feedback: "❌ ข้อหลอก! น้ำแร่อย่างเดียวไม่พอ ร่างกายเข้าสู่ภาวะสลายกล้ามเนื้อเพราะไม่ได้สารอาหาร" }
+      ]
+    }
   },
   {
     id: 3,
@@ -49,11 +73,23 @@ const gameCases = [
     history: "แข่งกลางแจ้ง เสียเหงื่อเยอะมาก มาปรึกษาเรื่องการเติมน้ำและเกลือแร่",
     secretInfo: "⚠️ ภาวะโซเดียมต่ำ: ดื่มแค่น้ำเปล่ารวดเดียวจะทำให้เกลือแร่เจือจาง",
     initialStats: { health: 60, fit: 70, perf: 40, mood: 50 },
-    options: [
-      { text: "ดื่ม 'น้ำเกลือแร่สำหรับนักกีฬา + กล้วยหอม'", type: "A", playerEffect: { cred: 10, know: 10 }, athleteEffect: { perf: 30, health: 15, fit: 10, mood: 10 }, feedback: "✅ ถูกต้อง! (ความรู้: การเสียเหงื่อมากต้องชดเชยด้วยของเหลวที่มีโซเดียม และกล้วยมีโพแทสเซียมสูง ช่วยรักษาสมดุลและป้องกันกล้ามเนื้อหดเกร็งหรือตะคริว)" },
-      { text: "ดื่ม 'น้ำเปล่าเย็นจัด 1 ลิตร ทีเดียว'", type: "B", playerEffect: { cred: -10, know: 0 }, athleteEffect: { perf: -15, health: -15, fit: 0, mood: -10 }, feedback: "❌ อันตราย! เกลือแร่เจือจางฉับพลัน บาสจุกและตะคริวกินหนักกว่าเดิม" },
-      { text: "ดื่ม 'น้ำอัดลมเกลือแร่ (สูตรซ่า)'", type: "C", playerEffect: { cred: -5, know: 5 }, athleteEffect: { perf: -10, health: -5, fit: 0, mood: 20 }, feedback: "❌ ข้อหลอก! มีเกลือแร่ก็จริง แต่แก๊สในน้ำอัดลมทำให้เกิดอาการจุกเสียดแน่นท้องระหว่างวิ่ง (ความรู้: นักกีฬาควรเลี่ยงเครื่องดื่มอัดแก๊สระหว่างแข่ง)" }
-    ]
+    optionsPool: {
+      good: [
+        { text: "น้ำเกลือแร่สำหรับนักกีฬา + กล้วยหอม", playerEffect: { cred: 10, know: 10 }, athleteEffect: { perf: 30, health: 15, fit: 10, mood: 10 }, feedback: "✅ ถูกต้อง! โซเดียมในน้ำเกลือแร่และโพแทสเซียมในกล้วยช่วยป้องกันตะคริวได้ชะงัด" },
+        { text: "น้ำส้มคั้นผสมเกลือป่นเล็กน้อย + แตงโม", playerEffect: { cred: 10, know: 10 }, athleteEffect: { perf: 25, health: 20, fit: 5, mood: 20 }, feedback: "✅ ดีมาก! เป็นวิธีเติมเกลือแร่ธรรมชาติ แตงโมมีน้ำเยอะและช่วยลดความร้อนในร่างกายได้ดี" },
+        { text: "เครื่องดื่มอิเล็กโทรไลต์แบบผงชงน้ำ", playerEffect: { cred: 10, know: 10 }, athleteEffect: { perf: 25, health: 15, fit: 10, mood: 5 }, feedback: "✅ ถูกหลักวิชาการ! การดูดซึมเร็ว ช่วยรักษาสมดุลเกลือแร่ในเลือด บาสเล่นได้จนจบเรซ" }
+      ],
+      bad: [
+        { text: "ดื่มน้ำเปล่าเย็นจัด 1 ลิตร ทีเดียว", playerEffect: { cred: -10, know: 0 }, athleteEffect: { perf: -15, health: -15, fit: 0, mood: -10 }, feedback: "❌ อันตราย! เกลือแร่เจือจางฉับพลัน บาสจุกและตะคริวกินหนักกว่าเดิม" },
+        { text: "ดื่มกาแฟเย็นแก้วใหญ่", playerEffect: { cred: -10, know: 0 }, athleteEffect: { perf: -20, health: -10, fit: 0, mood: 10 }, feedback: "❌ ผิดมหันต์! คาเฟอีนขับน้ำออกจากร่างกาย (Diuretic) ยิ่งทำให้ขาดน้ำและตะคริวกิน" },
+        { text: "ดื่มเบียร์เย็นๆ ดับกระหาย", playerEffect: { cred: -15, know: 0 }, athleteEffect: { perf: -30, health: -20, fit: -10, mood: 30 }, feedback: "❌ พัง! แอลกอฮอล์ทำให้ร่างกายเสียสมดุลน้ำอย่างหนัก บาสหน้ามืดล้มกลางสนาม!" }
+      ],
+      trick: [
+        { text: "น้ำอัดลมเกลือแร่ (สูตรซ่า)", playerEffect: { cred: -5, know: 5 }, athleteEffect: { perf: -10, health: -5, fit: 0, mood: 20 }, feedback: "❌ ข้อหลอก! มีเกลือแร่จริง แต่แก๊สทำให้จุกเสียดแน่นท้องระหว่างวิ่ง" },
+        { text: "น้ำแร่บริสุทธิ์จากเทือกเขา", playerEffect: { cred: -5, know: 5 }, athleteEffect: { perf: -10, health: -5, fit: 0, mood: 5 }, feedback: "❌ ข้อหลอก! น้ำแร่มีแร่ธาตุจริง แต่น้อยเกินไป ไม่พอชดเชยโซเดียมที่เสียไปกับเหงื่อจำนวนมาก" },
+        { text: "นมช็อกโกแลตเย็น", playerEffect: { cred: -5, know: 5 }, athleteEffect: { perf: -15, health: 0, fit: 0, mood: 15 }, feedback: "❌ ข้อหลอก! นมช็อกโกแลตดีสำหรับการฟื้นฟู 'หลังแข่ง' แต่กินตอนเหงื่อท่วมกลางเกมจะทำให้จุกและย่อยไม่ทัน" }
+      ]
+    }
   },
   {
     id: 4,
@@ -63,11 +99,23 @@ const gameCases = [
     history: "ต้องการฟื้นฟูกล้ามเนื้อและสร้างความแข็งแรงระยะยาว",
     secretInfo: "⚠️ การอักเสบระดับไมโคร: ต้องการวิตามิน/แร่ธาตุธรรมชาติร่วมด้วย",
     initialStats: { health: 80, fit: 90, perf: 70, mood: 70 },
-    options: [
-      { text: "โปรตีนคุณภาพดี (ไข่ต้ม, อกไก่, ปลา) สลับตามมื้อ", type: "A", playerEffect: { cred: 10, know: 10 }, athleteEffect: { fit: 10, health: 10, mood: 10, perf: 10 }, feedback: "✅ ยอดเยี่ยม! (ความรู้: ร่างกายต้องการอาหารหลัก (Whole Foods) ที่มีสารอาหารรอง ไมโครนิวเทรียนต์ เพื่อกระบวนการสังเคราะห์โปรตีนและฟื้นฟูกล้ามเนื้อที่สมบูรณ์ ไม่ใช่แค่โปรตีนสกัด)" },
-      { text: "กิน 'อาหารเสริมสังเคราะห์ งดมื้อหลัก'", type: "B", playerEffect: { cred: -10, know: 0 }, athleteEffect: { health: -30, fit: -10, mood: -20, perf: -10 }, feedback: "❌ ผิดหลัก! ขาดวิตามินแร่ธาตุหลัก ร่างกายเครียดและโทรมลง" },
-      { text: "อัดโปรตีนวันละ 5 เท่าของน้ำหนักตัว", type: "C", playerEffect: { cred: -10, know: 5 }, athleteEffect: { health: -20, fit: 0, mood: -10, perf: -10 }, feedback: "❌ ข้อหลอก! กินโปรตีนเยอะเกินไป ตับและไตทำงานหนัก ร่างกายขับออกเป็นของเสียหมด (ความรู้: ร่างกายดูดซึมโปรตีนต่อมื้อได้จำกัด แค่ 1.5-2 กรัมต่อน้ำหนักตัวก็พอแล้ว)" }
-    ]
+    optionsPool: {
+      good: [
+        { text: "โปรตีนธรรมชาติ (ไข่ต้ม, อกไก่) สลับตามมื้อ", playerEffect: { cred: 10, know: 10 }, athleteEffect: { fit: 10, health: 10, mood: 10, perf: 10 }, feedback: "✅ ยอดเยี่ยม! สารอาหารหลักที่ครบถ้วนช่วยสังเคราะห์โปรตีนได้สมบูรณ์แบบ" },
+        { text: "เนื้อวัวไม่ติดมัน + บรอกโคลี + ข้าวกล้อง", playerEffect: { cred: 10, know: 10 }, athleteEffect: { fit: 15, health: 10, mood: 5, perf: 10 }, feedback: "✅ ดีมาก! ครีเอทีนธรรมชาติในเนื้อวัวช่วยเพิ่มพลัง และบรอกโคลีให้วิตามินฟื้นฟู" },
+        { text: "แซลมอนย่าง + หน่อไม้ฝรั่ง + มันเทศ", playerEffect: { cred: 10, know: 10 }, athleteEffect: { fit: 10, health: 15, mood: 15, perf: 5 }, feedback: "✅ ตัวเลือกที่ดีมาก! โอเมก้า 3 ในปลาช่วยลดการอักเสบของกล้ามเนื้อได้ดีเยี่ยม" }
+      ],
+      bad: [
+        { text: "กิน 'อาหารเสริมสังเคราะห์ งดมื้อหลัก'", playerEffect: { cred: -10, know: 0 }, athleteEffect: { health: -30, fit: -10, mood: -20, perf: -10 }, feedback: "❌ ผิดหลัก! ขาดวิตามินแร่ธาตุหลัก ร่างกายเครียดและโทรมลง" },
+        { text: "ฟาสต์ฟู้ดเน้นๆ ขอแค่แคลอรี่ถึงก็พอ", playerEffect: { cred: -15, know: 0 }, athleteEffect: { health: -20, fit: -5, mood: 20, perf: -15 }, feedback: "❌ แย่มาก! ไขมันทรานส์และโซเดียมมหาศาล ทำให้กล้ามเนื้อบวมน้ำ (Dirty Bulking แบบผิดๆ)" },
+        { text: "งดคาร์บ 100% กินแต่โปรตีนเพียวๆ", playerEffect: { cred: -10, know: 0 }, athleteEffect: { health: -15, fit: -20, mood: -30, perf: -20 }, feedback: "❌ พังแน่! คาร์บคือตัวพาน้ำและโปรตีนเข้ากล้ามเนื้อ ถ้างดคาร์บ กล้ามเนื้อจะแฟบและไม่มีแรงยก" }
+      ],
+      trick: [
+        { text: "อัดโปรตีนวันละ 5 เท่าของน้ำหนักตัว", playerEffect: { cred: -10, know: 5 }, athleteEffect: { health: -20, fit: 0, mood: -10, perf: -10 }, feedback: "❌ ข้อหลอก! กินโปรตีนล้นเกิน ตับไตทำงานหนัก ร่างกายขับออกเป็นของเสียหมด (รับได้แค่ 1.5-2g/น้ำหนักตัว)" },
+        { text: "กินผลไม้รสหวานทดแทนคาร์บทั้งหมด", playerEffect: { cred: -5, know: 5 }, athleteEffect: { health: 5, fit: -10, mood: 10, perf: -5 }, feedback: "❌ ข้อหลอก! ฟรุกโตสในผลไม้เติมไกลโคเจนที่ตับ แต่ไม่ค่อยเข้ากล้ามเนื้อ เพาะกายควรเน้นคาร์บเชิงซ้อน" },
+        { text: "ดื่มน้ำผลไม้กล่องแทนน้ำเปล่า", playerEffect: { cred: -10, know: 5 }, athleteEffect: { health: -10, fit: -10, mood: 5, perf: -10 }, feedback: "❌ ข้อหลอก! ดูเหมือนสุขภาพดีแต่น้ำตาลแฝงสูงมาก ทำให้สะสมไขมันบดบังกล้ามเนื้อ" }
+      ]
+    }
   },
   {
     id: 5,
@@ -77,36 +125,53 @@ const gameCases = [
     history: "คืนก่อนวันแข่งใหญ่ (Carb-Loading) ควรเตรียมพลังงานอย่างไรดี?",
     secretInfo: "⚠️ ระดับฮอร์โมนเครียดสูง: ระบบย่อยอาหารทำงานช้าลงมาก",
     initialStats: { health: 70, fit: 80, perf: 60, mood: 30 },
-    options: [
-      { text: "พาสต้าซอสมะเขือเทศ / ข้าวกล้อง", type: "A", playerEffect: { cred: 10, know: 10 }, athleteEffect: { perf: 30, health: 10, mood: 20, fit: 10 }, feedback: "✅ เพอร์เฟกต์! (ความรู้: มื้อ Carb-loading ก่อนแข่งควรเน้นคาร์บเชิงซ้อนที่ไขมันต่ำ เพื่อให้ร่างกายสะสมไกลโคเจนได้เต็มที่ อาหารย่อยง่ายช่วยให้หลับสนิท ไม่กวนกระเพาะ)" },
-      { text: "ชาบูหมูกระทะมันกุ้ง", type: "B", playerEffect: { cred: -10, know: 0 }, athleteEffect: { perf: -20, health: -10, mood: 30, fit: 0 }, feedback: "❌ พังพินาศ! อาหารไม่ย่อย กรดไหลย้อน นอนไม่หลับ วิ่งไม่จบเรซ!" },
-      { text: "สเต็กเนื้อวัวริบอาย ชิ้นใหญ่", type: "C", playerEffect: { cred: -5, know: 5 }, athleteEffect: { perf: -10, health: -5, mood: 10, fit: 5 }, feedback: "❌ ข้อหลอก! เนื้อแดงให้โปรตีนสูง แต่ย่อยยากมากและใช้เวลาอยู่ในกระเพาะนาน (ความรู้: คืนก่อนแข่งควรเน้นคาร์บย่อยง่าย ลดเนื้อสัตว์ย่อยยาก เพื่อให้หลับสบาย)" }
-    ]
+    optionsPool: {
+      good: [
+        { text: "พาสต้าซอสมะเขือเทศ / ข้าวกล้อง", playerEffect: { cred: 10, know: 10 }, athleteEffect: { perf: 30, health: 10, mood: 20, fit: 10 }, feedback: "✅ เพอร์เฟกต์! อาหารย่อยง่ายช่วยสะสมไกลโคเจน ฟ้าหลับสนิท ตื่นมาวิ่งเต็มสูบ" },
+        { text: "ข้าวต้มไก่สับ หรือ โจ๊ก", playerEffect: { cred: 10, know: 10 }, athleteEffect: { perf: 25, health: 10, mood: 15, fit: 5 }, feedback: "✅ ดีมาก! เป็นคาร์บที่ผ่านการต้มจนร่วน ย่อยง่ายมาก ไม่รบกวนกระเพาะตอนนอน" },
+        { text: "ขนมปังปิ้งทาแยม + น้ำผลไม้สด", playerEffect: { cred: 10, know: 10 }, athleteEffect: { perf: 20, health: 5, mood: 25, fit: 0 }, feedback: "✅ ถูกต้อง! ของหวานทานง่ายช่วยลดความเครียด และให้คาร์บไฮเดรตสะสมได้ดี" }
+      ],
+      bad: [
+        { text: "ชาบูหมูกระทะมันกุ้ง", playerEffect: { cred: -10, know: 0 }, athleteEffect: { perf: -20, health: -10, mood: 30, fit: 0 }, feedback: "❌ พังพินาศ! อาหารมันๆ ย่อยยาก กรดไหลย้อน นอนไม่หลับ วิ่งไม่จบเรซ!" },
+        { text: "ส้มตำปูปลาร้าเผ็ดจัด", playerEffect: { cred: -10, know: 0 }, athleteEffect: { perf: -30, health: -20, mood: 10, fit: -10 }, feedback: "❌ หายนะ! ระคายเคืองลำไส้ ฟ้าท้องเสียทั้งคืนก่อนแข่ง หมดแรงข้าวต้ม" },
+        { text: "บุฟเฟต์ของทอดจัดเต็ม", playerEffect: { cred: -15, know: 0 }, athleteEffect: { perf: -25, health: -15, mood: 20, fit: -5 }, feedback: "❌ แย่มาก! ไขมันใช้เวลาย่อย 6-8 ชม. กระเพาะทำงานหนักตอนนอน หลับไม่ลึก ฟอร์มตก" }
+      ],
+      trick: [
+        { text: "สเต็กเนื้อวัวริบอาย ชิ้นใหญ่", playerEffect: { cred: -5, know: 5 }, athleteEffect: { perf: -10, health: -5, mood: 10, fit: 5 }, feedback: "❌ ข้อหลอก! เนื้อแดงให้โปรตีนสูง แต่ย่อยยากมากและอยู่ในกระเพาะนาน ทำให้หลับไม่สนิท" },
+        { text: "ข้าวขาหมู (เอาเนื้อล้วน)", playerEffect: { cred: -5, know: 5 }, athleteEffect: { perf: -15, health: -10, mood: 15, fit: 0 }, feedback: "❌ ข้อหลอก! ถึงจะเนื้อล้วน แต่น้ำพะโล้มีไขมันแฝงสูงมาก ย่อยยากและจุกเสียด" },
+        { text: "ถั่วและธัญพืชรวม 1 ชามใหญ่", playerEffect: { cred: -5, know: 5 }, athleteEffect: { perf: -10, health: 5, mood: -5, fit: 5 }, feedback: "❌ ข้อหลอก! ธัญพืชดี แต่มีกากใย (Fiber) มหาศาล ทำให้เกิดแก๊สในกระเพาะและแน่นท้องตอนเช้า" }
+      ]
+    }
   }
 ];
 
-// ฟังก์ชันสุ่มทั้งข้อความและดึงสีมาใส่ให้ปุ่ม
-const shuffleArrayWithColors = (array) => {
-  const shuffledOptions = [...array];
-  // 1. สุ่มคำตอบก่อน
-  for (let i = shuffledOptions.length - 1; i > 0; i--) {
+// ฟังก์ชันสุ่มดึงคำตอบ (ถูก 1, ผิด 1, หลอก 1) แล้วสลับตำแหน่ง+ใส่สี
+const getRandomOptionsForCase = (optionsPool) => {
+  // สุ่มหยิบหมวดละ 1 ข้อ
+  const goodChoice = optionsPool.good[Math.floor(Math.random() * optionsPool.good.length)];
+  const badChoice = optionsPool.bad[Math.floor(Math.random() * optionsPool.bad.length)];
+  const trickChoice = optionsPool.trick[Math.floor(Math.random() * optionsPool.trick.length)];
+  
+  const selected = [goodChoice, badChoice, trickChoice];
+
+  // สลับตำแหน่ง (Shuffle)
+  for (let i = selected.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
-    [shuffledOptions[i], shuffledOptions[j]] = [shuffledOptions[j], shuffledOptions[i]];
+    [selected[i], selected[j]] = [selected[j], selected[i]];
   }
   
-  // 2. สุ่มลำดับสีจากชุดสีที่เราเตรียมไว้
-  const shuffledColors = [...buttonColors];
-  for (let i = shuffledColors.length - 1; i > 0; i--) {
+  // สุ่มชุดสีและจับคู่กับปุ่ม
+  const colors = [...buttonColors];
+  for (let i = colors.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
-    [shuffledColors[i], shuffledColors[j]] = [shuffledColors[j], shuffledColors[i]];
+    [colors[i], colors[j]] = [colors[j], colors[i]];
   }
 
-  // 3. จับคู่สีกับคำตอบที่สุ่มแล้ว
-  return shuffledOptions.map((opt, index) => ({
+  return selected.map((opt, index) => ({
     ...opt,
     colorStyle: {
-      backgroundColor: shuffledColors[index].bg,
-      border: `2px solid ${shuffledColors[index].border}`
+      backgroundColor: colors[index].bg,
+      border: `2px solid ${colors[index].border}`
     }
   }));
 };
@@ -122,9 +187,10 @@ function App() {
   
   const [currentOptions, setCurrentOptions] = useState([]);
 
+  // โหลดตัวเลือก 3 ข้อตอนเริ่มเกมหรือเปลี่ยนด่าน
   useEffect(() => {
     if (screen === 'playing') {
-      setCurrentOptions(shuffleArrayWithColors(gameCases[currentCaseIndex].options));
+      setCurrentOptions(getRandomOptionsForCase(gameCases[currentCaseIndex].optionsPool));
     }
   }, [currentCaseIndex, screen]);
 
@@ -204,7 +270,7 @@ function App() {
             <p><strong>สวัสดี!</strong> คุณคือนักโภชนาการจบใหม่ที่เพิ่งเข้ามาประจำการในคลินิกการกีฬาทีมชาติ</p>
             <p>วันนี้เป็นวันแรกของคุณ และมีนักกีฬา 5 คนกำลังต่อคิวรอรับคำปรึกษา ทุกคนมีเป้าหมาย นิสัย และข้อจำกัดที่ต่างกัน</p>
             <p><strong>ภารกิจ:</strong> จัดการโภชนาการให้ถูกต้อง อ่านประวัติให้ดี และระวัง <em>"ข้อหลอก"</em> ที่ดูเหมือนจะดีแต่ผิดหลักการ!</p>
-            <p style={{ color: '#d63031', fontWeight: 'bold' }}>*ระบบประเมินผลจะจัด Rank ของคุณเมื่อจบ 5 เคส!*</p>
+            <p style={{ color: '#d63031', fontWeight: 'bold' }}>*ระบบจะประเมิน Rank ของคุณเมื่อจบ 5 เคส!*</p>
           </div>
           
           <button className="btn-start" onClick={handleStartGame}>เริ่มงานวันแรก!</button>
@@ -236,7 +302,7 @@ function App() {
 
           <div className="story-box">
             <div className="trait">📌 นิสัย: {currentCase.trait}</div>
-            <p style={{ margin: 0, fontSize: '15px', color: '#2d3436' }}>
+            <p style={{ margin: 0, fontSize: '15px', color: '#2d3436', lineHeight: 1.5 }}>
               {step === 'question' ? currentCase.history : (
                 <span style={{ color: feedbackData.text.includes('❌') ? '#d63031' : '#00b894', fontWeight: 'bold' }}>
                   {feedbackData.text}
@@ -265,7 +331,7 @@ function App() {
                 <button 
                   key={index}
                   className="btn-option" 
-                  style={option.colorStyle} // ดึงสีที่สุ่มไว้มาใช้ตรงนี้
+                  style={option.colorStyle}
                   onClick={() => handleOptionSelect(option)}
                 >
                   {option.text}
@@ -293,14 +359,13 @@ function App() {
               <p style={{ fontSize: '14px', color: '#636e72', margin: '10px 0' }}>{resultInfo.desc}</p>
             </div>
 
-            <div style={{ textAlign: 'left', backgroundColor: 'white', padding: '15px', borderRadius: '12px', marginBottom: '20px' }}>
+            <div style={{ textAlign: 'left', backgroundColor: 'white', padding: '15px', borderRadius: '12px', marginBottom: '10px' }}>
               <p style={{ margin: '5px 0' }}>🌟 ความน่าเชื่อถือ (Credibility): <strong>{playerStats.cred} / 100</strong></p>
               <p style={{ margin: '5px 0' }}>🧠 ความรู้สะสม (Knowledge): <strong>{playerStats.know} / 50</strong></p>
             </div>
-            {/* เพิ่มส่วน QR Code ตรงนี้ครับ */}
+
             <div className="qr-section">
               <p>🎯 ท้าเพื่อนมาลองเป็นนักโภชนาการ!</p>
-              {/* เปลี่ยน YOUR_VERCEL_LINK ตรง data=... ให้เป็นลิงก์เว็บจริงของคุณ */}
               <img 
                 className="qr-image" 
                 src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://nutritionist-sim.vercel.app" 
